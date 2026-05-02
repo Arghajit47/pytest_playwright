@@ -1,0 +1,17 @@
+from pages.components.dashboard.quick_launch_components import QuickLaunchComponent
+import pytest
+
+pytestmark = pytest.mark.usefixtures(
+    "login_via_api", "login_via_cookies", "request_setup"
+)
+
+
+def test_quick_launch_component(page, request_setup, login_via_api):
+    # Use the dynamic cookie in Playwright API Request
+    quick_launch_component = QuickLaunchComponent(page)
+    quick_launch_component.verify_quick_launch_widget_text()
+    response = quick_launch_component.get_quick_launch_items(
+        request_setup, login_via_api
+    )
+    print(f"API Response: {response}")
+    quick_launch_component.validate_quick_launch_items(response)
