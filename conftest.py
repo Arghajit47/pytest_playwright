@@ -25,56 +25,65 @@ from playwright.sync_api import sync_playwright
 
 
 @pytest.fixture(scope="function")
-def login(page):
+def login(page, pulse_step):
     login_page = LoginPage(page)
-    login_page.go_to_login_page()
-    login_page.verify_orangehrm_logo_is_visible()
+    with pulse_step("Navigate to the login page"):
+        login_page.go_to_login_page()
+    with pulse_step("Verify orangehrm logo is visible"):
+        login_page.verify_orangehrm_logo_is_visible()
     creds = login_page.fetch_demo_credentials()
-    login_page.login(creds[0], creds[1])
+    with pulse_step("Login"):
+        login_page.login(creds[0], creds[1])
     print("User is logged in to the OrangeHRM Demo page.")
     yield
 
 
 @pytest.fixture(scope="function")
-def logout(page):
+def logout(page, pulse_step):
     yield
     login_page = LoginPage(page)
-    login_page.click_logout_button()
+    with pulse_step("Click logout button"):
+        login_page.click_logout_button()
     print("User is logged out of the OrangeHRM Demo page.")
 
 
 @pytest.fixture(scope="function")
-def login_via_cookies(page, login_via_api):
-    page.context.add_cookies(
-        [
-            {
-                "name": Cookies.ORANGEHRM_COOKIE.value,
-                "value": login_via_api,
-                "domain": Cookies.ORANGEHRM_COOKIE_DOMAIN.value,
-                "path": Cookies.ORANGEHRM_COOKIE_PATH.value,
-                "httpOnly": Cookies.ORANGEHRM_COOKIE_HTTPONLY.value,
-                "secure": Cookies.ORANGEHRM_COOKIE_SECURE.value,
-                "sameSite": Cookies.ORANGEHRM_COOKIE_SAMESITE.value,
-            }
-        ]
-    )
-    base_page = BasePage(page)
-    base_page.navigateToUrl(DashboardPageConstants.DASHBOARD_PAGE_URL)
-    base_page.waitForFullyPageLoad()
+def login_via_cookies(page, pulse_step, login_via_api):
+    with pulse_step("Store cookies in browser"):
+        page.context.add_cookies(
+            [
+                {
+                    "name": Cookies.ORANGEHRM_COOKIE.value,
+                    "value": login_via_api,
+                    "domain": Cookies.ORANGEHRM_COOKIE_DOMAIN.value,
+                    "path": Cookies.ORANGEHRM_COOKIE_PATH.value,
+                    "httpOnly": Cookies.ORANGEHRM_COOKIE_HTTPONLY.value,
+                    "secure": Cookies.ORANGEHRM_COOKIE_SECURE.value,
+                    "sameSite": Cookies.ORANGEHRM_COOKIE_SAMESITE.value,
+                }
+            ]
+        )
+    with pulse_step("Navigate to the dashboard page"):
+        base_page = BasePage(page)
+        base_page.navigateToUrl(DashboardPageConstants.DASHBOARD_PAGE_URL)
+        base_page.waitForFullyPageLoad()
 
 
 @pytest.fixture(scope="function")
-def login_via_api():
-    # Dynamically fetch the authenticated cookie using our Requests utility
-    api_auth = OrangeHRMAPI(APIEndpoints.BASE_URL)
-    cookie_value = api_auth.login(APIEndpoints.USER_NAME, APIEndpoints.PASSWORD)
-    assert cookie_value is not None, "Failed to authenticate and get cookie"
+def login_via_api(pulse_step):
+    with pulse_step("Fetch cookies from API"):
+        # Dynamically fetch the authenticated cookie using our Requests utility
+        api_auth = OrangeHRMAPI(APIEndpoints.BASE_URL)
+        cookie_value = api_auth.login(APIEndpoints.USER_NAME, APIEndpoints.PASSWORD)
+        assert cookie_value is not None, "Failed to authenticate and get cookie"
     return cookie_value
 
 
 @pytest.fixture(scope="function")
-def request_setup(playwright):
-    request = playwright.request.new_context()
+def request_setup(playwright, pulse_step):
+    with pulse_step("Create request context"):
+        request = playwright.request.new_context()
     yield request
-    request.dispose()
+    with pulse_step("Dispose request context"):
+        request.dispose()
     print("Request is done successfully!")
