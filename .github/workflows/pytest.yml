@@ -46,7 +46,7 @@ jobs:
     - name: Generate Pulse Report
       if: always()
       run: |
-        mkdir -p pulse-report/pulse-report-1 pulse-report/pulse-report-2 pulse-report/pulse-report-3 pulse-report/pulse-report-4 && \mv pulse-report/.pulse-shard-results-0.json pulse-report/pulse-report-1/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-1.json pulse-report/pulse-report-2/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-2.json pulse-report/pulse-report-3/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-3.json pulse-report/pulse-report-4/playwright-pulse-report.json
+        mkdir -p pulse-report/pulse-report-1 pulse-report/pulse-report-2 pulse-report/pulse-report-3 pulse-report/pulse-report-4 && \mv pulse-report/.pulse-shard-results-0.json pulse-report/pulse-report-1/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-1.json pulse-report/pulse-report-2/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-2.json pulse-report/pulse-report-3/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-3.json pulse-report/pulse-report-4/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-4.json pulse-report/pulse-report-5/playwright-pulse-report.json && \mv pulse-report/.pulse-shard-results-5.json pulse-report/pulse-report-6/playwright-pulse-report.json
         merge-pulse-report
         rm -rf pulse-report/playwright-pulse-report.html && rm -rf pulse-report/playwright-pulse-static-report.html
         generate-report
