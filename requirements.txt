@@ -26,4 +26,4 @@ typing_extensions==4.15.0
 urllib3==2.6.3
 narwhals==2.20.0
 plotly==6.7.0
-pytest-pulse-report==1.0.1
+pytest-pulse-report==1.0.2
