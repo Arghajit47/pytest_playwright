@@ -3,6 +3,7 @@ from constants.login_page_constants import LoginPageConstants
 from pages.base_page import BasePage
 from locators.orangeHRM_login_locators import LoginPageLocators
 from playwright.sync_api import Page
+import os
 
 
 class LoginPage:
@@ -13,7 +14,11 @@ class LoginPage:
         self.password_inputbox = page.get_by_role("textbox", name="Password")
         self.login_button = page.get_by_role("button", name="Login")
 
-    def login(self, username: str, password: str):
+    def login(
+        self,
+        username: str = os.getenv("USERNAME"),
+        password: str = os.getenv("PASSWORD"),
+    ):
         self.base_page.fill(self.username_inputbox, username)
         self.base_page.fill(self.password_inputbox, password)
         self.base_page.click(self.login_button)

@@ -7,6 +7,7 @@ from constants.dashboard_page_constants import DashboardPageConstants
 from pages.orangeHRM_login_page import LoginPage
 import pytest
 from playwright.sync_api import sync_playwright
+from dotenv import load_dotenv
 
 
 # @pytest.fixture(scope="session")
@@ -94,8 +95,9 @@ def pytest_sessionstart(session):
     Called after the Session object has been created and
     before performing collection and entering the run test loop.
     """
+    load_dotenv()  # loads environment variables from .env file
     # This runs ONCE in the main master process before workers start
-    print("Executing Global Setup")
+    print("Executing Global Setup and It also sets up the dotenv files")
 
 
 def pytest_sessionfinish(session, exitstatus):

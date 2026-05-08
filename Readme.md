@@ -216,3 +216,7 @@ Reusablity, Readability, Maintainability, Scalability
 ## Worker management (pytest-xdist)
 
 Check out the [general_knowledge_3.md](general_knowledge_3.md) file for more information.
+
+## Environment Variables
+
+Check out the [general_knowledge_4.md](general_knowledge_4.md) file for more information.
