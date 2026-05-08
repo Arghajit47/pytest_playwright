@@ -87,3 +87,21 @@ def request_setup(playwright, pulse_step):
     with pulse_step("Dispose request context"):
         request.dispose()
     print("Request is done successfully!")
+
+
+def pytest_sessionstart(session):
+    """
+    Called after the Session object has been created and
+    before performing collection and entering the run test loop.
+    """
+    # This runs ONCE in the main master process before workers start
+    print("Executing Global Setup")
+
+
+def pytest_sessionfinish(session, exitstatus):
+    """
+    Called after whole test run finished, right before
+    returning the exit status to the system.
+    """
+    # This runs ONCE after all workers have finished
+    print("Executing Global Teardown")

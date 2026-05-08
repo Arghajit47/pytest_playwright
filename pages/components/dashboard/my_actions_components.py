@@ -1,3 +1,4 @@
+import re
 from constants.api_constants import APIEndpoints
 from constants.components.dashboard.my_actions_constants import MyActionsPageConstants
 from locators.components.dashboard.my_actions_locators import MyActionsLocators
@@ -23,9 +24,9 @@ class MyActionsComponent:
         assert response.status == 200
         return response.json()
 
-    def puralize(self, data):
+    def singularize(self, data):
         if data["pendingActionCount"] == 1:
-            return data["group"].replace("s", "")
+            return re.sub(r"s(\s|$)", r"\1", data["group"])
         else:
             return data["group"]
 
@@ -38,6 +39,6 @@ class MyActionsComponent:
                 print(response["data"][i])
                 self.base_page.verify_element_text_ignore_case(
                     MyActionsLocators.MY_ACTION_LIST_ITEMS,
-                    f"({response['data'][i]['pendingActionCount']}) {self.puralize(response['data'][i])}",
+                    f"({response['data'][i]['pendingActionCount']}) {self.singularize(response['data'][i])}",
                     i,
                 )
