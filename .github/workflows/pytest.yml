@@ -30,6 +30,9 @@ jobs:
       run: playwright install --with-deps chromium
       
     - name: Run Pytest
+      env:
+        DUMMYJSON_USERNAME: ${{ secrets.DUMMYJSON_USERNAME }}
+        DUMMYJSON_PASSWORD: ${{ secrets.DUMMYJSON_PASSWORD }}
       run: pytest
       
     - name: Install Allure Commandline
