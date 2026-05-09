@@ -54,3 +54,9 @@ class DashboardPage:
         path2 = time_at_work_src.split("?")[0].split("pim")[-1]
 
         self.base_page.verify_equal(path1, path2)
+
+    def capture_dashboard_screenshot_and_attach_to_report(
+        self, pulse_attach, path: str = "screenshots"
+    ):
+        self.base_page.capture_screenshot(path + "/dashboard_screenshot.png")
+        pulse_attach("screenshots/dashboard_screenshot.png")

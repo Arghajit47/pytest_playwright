@@ -6,6 +6,10 @@ pytestmark = pytest.mark.usefixtures(
 )
 
 
+@pytest.mark.pulse_severity("Minor")
+@pytest.mark.pulse_tag("Regression")
+@pytest.mark.pulse_tag("Dashboard")
+@pytest.mark.pulse_tag("Quick Launch")
 def test_quick_launch_component(page, request_setup, login_via_api):
     # Use the dynamic cookie in Playwright API Request
     quick_launch_component = QuickLaunchComponent(page)

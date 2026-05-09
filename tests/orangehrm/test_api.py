@@ -4,6 +4,8 @@ import pytest
 pytestmark = pytest.mark.usefixtures("login_via_api", "request_setup")
 
 
+@pytest.mark.pulse_severity("Critical")
+@pytest.mark.pulse_tag("API")
 def test_api_orangehrm(request_setup, login_via_api):
     # Use the dynamic cookie in Playwright API Request
     response = request_setup.get(

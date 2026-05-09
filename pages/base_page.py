@@ -119,3 +119,6 @@ class BasePage:
             )
         else:
             expect(locator.nth(index)).to_have_text(text, ignore_case=True)
+
+    def capture_screenshot(self, path: str = "screenshots"):
+        self.page.screenshot(path=path, full_page=True)

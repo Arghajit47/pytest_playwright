@@ -9,6 +9,9 @@ pytestmark = pytest.mark.usefixtures(
 )
 
 
+@pytest.mark.pulse_severity("High")
+@pytest.mark.pulse_tag("Regression")
+@pytest.mark.pulse_tag("Admin")
 def test_admin_filter(page, request_setup, login_via_api):
     system_user_filter_component = SystemUserFilterComponents(page)
     system_user_filter_component.verify_and_click_on_admin_option()
