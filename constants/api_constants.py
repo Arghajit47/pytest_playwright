@@ -5,3 +5,4 @@ class APIEndpoints:
     PASSWORD = "admin123"
     ACTION_ITEMS_ENDPOINT = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/action-summary"
     SHORTCUTS_ENDPOINT = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/shortcuts"
+    DUMMYJSON_AUTHENTICATION_ENDPOINT = "https://dummyjson.com/auth/me"

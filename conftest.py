@@ -7,6 +7,7 @@ from pages import base_page
 from constants.dashboard_page_constants import DashboardPageConstants
 from pages.orangeHRM_login_page import LoginPage
 import pytest
+import os
 from playwright.sync_api import sync_playwright
 from dotenv import load_dotenv
 
@@ -96,6 +97,21 @@ def base_api_setup(request_setup, pulse_step):
     with pulse_step("Create base api setup"):
         base_api = BaseAPI(request_setup)
     yield base_api
+
+
+@pytest.fixture(scope="function")
+def authentication_token(request_setup, base_api_setup, pulse_step):
+    with pulse_step("Fetch authentication token from API"):
+        response = base_api_setup.post_response(
+            request_setup,
+            "https://dummyjson.com/auth/login",
+            data={
+                "username": os.getenv("DUMMYJSON_USERNAME"),
+                "password": os.getenv("DUMMYJSON_PASSWORD"),
+            },
+            headers={"Content-Type": "application/json"},
+        )
+    return response["accessToken"]
 
 
 def pytest_sessionstart(session):
