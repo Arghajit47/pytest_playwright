@@ -1,5 +1,6 @@
+from api.base_api import BaseAPI
 from constants.api_constants import APIEndpoints
-from utils.api_auth import OrangeHRMAPI
+from api.orangehrm_api_auth import OrangeHRMAPI
 from constants.common_constants import Cookies
 from pages.base_page import BasePage
 from pages import base_page
@@ -88,6 +89,13 @@ def request_setup(playwright, pulse_step):
     with pulse_step("Dispose request context"):
         request.dispose()
     print("Request is done successfully!")
+
+
+@pytest.fixture(scope="function")
+def base_api_setup(request_setup, pulse_step):
+    with pulse_step("Create base api setup"):
+        base_api = BaseAPI(request_setup)
+    yield base_api
 
 
 def pytest_sessionstart(session):

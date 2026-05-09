@@ -1,18 +1,17 @@
 from constants.api_constants import APIEndpoints
 import pytest
 
-pytestmark = pytest.mark.usefixtures("login_via_api", "request_setup")
+pytestmark = pytest.mark.usefixtures("login_via_api", "request_setup", "base_api_setup")
 
 
 @pytest.mark.pulse_severity("Critical")
 @pytest.mark.pulse_tag("API")
-def test_api_orangehrm(request_setup, login_via_api):
+def test_api_orangehrm(request_setup, login_via_api, base_api_setup):
     # Use the dynamic cookie in Playwright API Request
-    response = request_setup.get(
+    response = base_api_setup.get_response(
+        request_setup,
         APIEndpoints.USERS_ENDPOINT,
         headers={"Cookie": f"orangehrm={login_via_api}"},
     )
-    assert response.status == 200
-    response_data = response.json()
-    print(f"API Response: {response_data}")
-    assert response_data["meta"]["total"] >= 0
+    print(f"API Response: {response}")
+    assert response["meta"]["total"] >= 0
