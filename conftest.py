@@ -104,7 +104,7 @@ def authentication_token(request_setup, base_api_setup, pulse_step):
     with pulse_step("Fetch authentication token from API"):
         response = base_api_setup.post_response(
             request_setup,
-            "https://dummyjson.com/auth/login",
+            APIEndpoints.DUMMYJSON_LOGIN_ENDPOINT,
             data={
                 "username": os.getenv("DUMMYJSON_USERNAME"),
                 "password": os.getenv("DUMMYJSON_PASSWORD"),
