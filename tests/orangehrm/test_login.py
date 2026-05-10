@@ -8,7 +8,7 @@ pytestmark = pytest.mark.usefixtures("login", "logout")
 @pytest.mark.pulse_tag("Regression")
 @pytest.mark.pulse_tag("Login")
 def test_login(page, pulse_step, pulse_attach) -> None:
-    dashboard_page = DashboardPage(page)
+    dashboard_page = DashboardPage(page, pulse_step)
     with pulse_step("Verify dashboard page URL and title"):
         dashboard_page.verify_dashboard_page_url_title()
     with pulse_step("Verify dashboard page header"):

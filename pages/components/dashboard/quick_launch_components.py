@@ -7,9 +7,10 @@ from locators.components.dashboard.quick_launch_locators import QuickLaunchLocat
 
 
 class QuickLaunchComponent:
-    def __init__(self, page):
+
+    def __init__(self, page, pulse_step):
         self.page = page
-        self.base_page = BasePage(page)
+        self.base_page = BasePage(page, pulse_step)
 
     def verify_quick_launch_widget_text(self):
         self.base_page.verify_element_text(

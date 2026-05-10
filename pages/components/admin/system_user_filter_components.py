@@ -10,9 +10,10 @@ from pages.base_page import BasePage
 
 
 class SystemUserFilterComponents:
-    def __init__(self, page):
+
+    def __init__(self, page, pulse_step):
         self.page = page
-        self.base_page = BasePage(page)
+        self.base_page = BasePage(page, pulse_step)
         self.ui_helpers = UIHelpers(page)
 
     def verify_and_click_on_admin_option(self):
@@ -58,7 +59,7 @@ class SystemUserFilterComponents:
 
         print("Items in user list found!")
         self.verify_user_list_length(response)
-        
+
         for i, user in enumerate(data, start=1):
             self.base_page.verify_element_text_ignore_case(
                 SystemUserFilterLocators.USER_LIST_CELLS(i, 2),
@@ -68,7 +69,7 @@ class SystemUserFilterComponents:
                 SystemUserFilterLocators.USER_LIST_CELLS(i, 3),
                 user.get("userRole", {}).get("displayName", ""),
             )
-            
+
             employee = user.get("employee", {})
             self.base_page.verify_element_text_ignore_case(
                 SystemUserFilterLocators.USER_LIST_CELLS(i, 4),

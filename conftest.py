@@ -29,7 +29,7 @@ from dotenv import load_dotenv
 
 @pytest.fixture(scope="function")
 def login(page, pulse_step):
-    login_page = LoginPage(page)
+    login_page = LoginPage(page, pulse_step)
     with pulse_step("Navigate to the login page"):
         login_page.go_to_login_page()
     with pulse_step("Verify orangehrm logo is visible"):
@@ -44,7 +44,7 @@ def login(page, pulse_step):
 @pytest.fixture(scope="function")
 def logout(page, pulse_step):
     yield
-    login_page = LoginPage(page)
+    login_page = LoginPage(page, pulse_step)
     with pulse_step("Click logout button"):
         login_page.click_logout_button()
     print("User is logged out of the OrangeHRM Demo page.")
@@ -67,7 +67,7 @@ def login_via_cookies(page, pulse_step, login_via_api):
             ]
         )
     with pulse_step("Navigate to the dashboard page"):
-        base_page = BasePage(page)
+        base_page = BasePage(page, pulse_step)
         base_page.navigateToUrl(DashboardPageConstants.DASHBOARD_PAGE_URL)
         base_page.waitForFullyPageLoad()
 

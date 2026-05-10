@@ -6,9 +6,10 @@ from pages.base_page import BasePage
 
 
 class MyActionsComponent:
-    def __init__(self, page):
+
+    def __init__(self, page, pulse_step):
         self.page = page
-        self.base_page = BasePage(page)
+        self.base_page = BasePage(page, pulse_step)
 
     def verify_my_actions_widget_text(self):
         self.base_page.verify_element_text(

@@ -7,9 +7,10 @@ import os
 
 
 class LoginPage:
-    def __init__(self, page: Page):
+
+    def __init__(self, page: Page, pulse_step):
         self.page = page
-        self.base_page = BasePage(page)
+        self.base_page = BasePage(page, pulse_step)
         self.username_inputbox = page.get_by_role("textbox", name="Username")
         self.password_inputbox = page.get_by_role("textbox", name="Password")
         self.login_button = page.get_by_role("button", name="Login")

@@ -6,8 +6,8 @@ pytestmark = pytest.mark.usefixtures("login_via_cookies")
 
 @pytest.mark.pulse_severity("High")
 @pytest.mark.pulse_tag("Regression")
-def test_dashboard_page(page) -> None:
-    dashboard_page = DashboardPage(page)
+def test_dashboard_page(page, pulse_step) -> None:
+    dashboard_page = DashboardPage(page, pulse_step)
     dashboard_page.verify_dashboard_page_url_title()
     dashboard_page.verify_dashboard_page_header()
     dashboard_page.verify_upgrade_button_is_visible()

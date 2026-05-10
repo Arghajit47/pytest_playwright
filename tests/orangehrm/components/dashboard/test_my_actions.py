@@ -10,9 +10,9 @@ pytestmark = pytest.mark.usefixtures(
 @pytest.mark.pulse_tag("Regression")
 @pytest.mark.pulse_tag("Dashboard")
 @pytest.mark.pulse_tag("My Actions")
-def test_my_actions_component(page, request_setup, login_via_api):
+def test_my_actions_component(page, pulse_step, request_setup, login_via_api):
     # Use the dynamic cookie in Playwright API Request
-    my_actions_component = MyActionsComponent(page)
+    my_actions_component = MyActionsComponent(page, pulse_step)
     my_actions_component.verify_my_actions_widget_text()
     response = my_actions_component.get_my_action_items_from_api(
         request_setup, login_via_api

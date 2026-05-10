@@ -5,9 +5,10 @@ from constants.dashboard_page_constants import DashboardPageConstants
 
 
 class DashboardPage:
-    def __init__(self, page):
+
+    def __init__(self, page, pulse_step):
         self.page = page
-        self.base_page = BasePage(page)
+        self.base_page = BasePage(page, pulse_step)
 
     def verify_dashboard_page_url_title(self):
         self.base_page.verify_page_url(DashboardPageConstants.DASHBOARD_PAGE_URL)
