@@ -52,7 +52,6 @@ jobs:
       if: always()
       run: |
         merge-pulse-report
-        rm -rf pulse-report/playwright-pulse-report.html && rm -rf pulse-report/playwright-pulse-static-report.html
         generate-report
         generate-pulse-report
         generate-email-report
