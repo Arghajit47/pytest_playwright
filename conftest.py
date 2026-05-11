@@ -10,6 +10,7 @@ import pytest
 import os
 from playwright.sync_api import sync_playwright
 from dotenv import load_dotenv
+from pytest_pulse import pulse_step, step
 
 
 # @pytest.fixture(scope="session")
@@ -28,8 +29,8 @@ from dotenv import load_dotenv
 
 
 @pytest.fixture(scope="function")
-def login(page, pulse_step):
-    login_page = LoginPage(page, pulse_step)
+def login(page):
+    login_page = LoginPage(page)
     with pulse_step("Navigate to the login page"):
         login_page.go_to_login_page()
     with pulse_step("Verify orangehrm logo is visible"):
@@ -42,16 +43,16 @@ def login(page, pulse_step):
 
 
 @pytest.fixture(scope="function")
-def logout(page, pulse_step):
+def logout(page):
     yield
-    login_page = LoginPage(page, pulse_step)
+    login_page = LoginPage(page)
     with pulse_step("Click logout button"):
         login_page.click_logout_button()
     print("User is logged out of the OrangeHRM Demo page.")
 
 
 @pytest.fixture(scope="function")
-def login_via_cookies(page, pulse_step, login_via_api):
+def login_via_cookies(page, login_via_api):
     with pulse_step("Store cookies in browser"):
         page.context.add_cookies(
             [
@@ -67,13 +68,13 @@ def login_via_cookies(page, pulse_step, login_via_api):
             ]
         )
     with pulse_step("Navigate to the dashboard page"):
-        base_page = BasePage(page, pulse_step)
+        base_page = BasePage(page)
         base_page.navigateToUrl(DashboardPageConstants.DASHBOARD_PAGE_URL)
         base_page.waitForFullyPageLoad()
 
 
 @pytest.fixture(scope="function")
-def login_via_api(pulse_step):
+def login_via_api():
     with pulse_step("Fetch cookies from API"):
         # Dynamically fetch the authenticated cookie using our Requests utility
         api_auth = OrangeHRMAPI(APIEndpoints.BASE_URL)
@@ -83,7 +84,7 @@ def login_via_api(pulse_step):
 
 
 @pytest.fixture(scope="function")
-def request_setup(playwright, pulse_step):
+def request_setup(playwright):
     with pulse_step("Create request context"):
         request = playwright.request.new_context()
     yield request
@@ -93,14 +94,14 @@ def request_setup(playwright, pulse_step):
 
 
 @pytest.fixture(scope="function")
-def base_api_setup(request_setup, pulse_step):
+def base_api_setup(request_setup):
     with pulse_step("Create base api setup"):
         base_api = BaseAPI(request_setup)
     yield base_api
 
 
 @pytest.fixture(scope="function")
-def authentication_token(request_setup, base_api_setup, pulse_step):
+def authentication_token(request_setup, base_api_setup):
     with pulse_step("Fetch authentication token from API"):
         response = base_api_setup.post_response(
             request_setup,

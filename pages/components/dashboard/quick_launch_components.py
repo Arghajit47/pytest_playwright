@@ -4,20 +4,23 @@ from constants.components.dashboard.quick_launch_constants import (
     QuickLaunchPageConstants,
 )
 from locators.components.dashboard.quick_launch_locators import QuickLaunchLocators
+from pytest_pulse import step
 
 
 class QuickLaunchComponent:
 
-    def __init__(self, page, pulse_step):
+    def __init__(self, page):
         self.page = page
-        self.base_page = BasePage(page, pulse_step)
+        self.base_page = BasePage(page)
 
+    @step("Verify quick launch widget text")
     def verify_quick_launch_widget_text(self):
         self.base_page.verify_element_text(
             QuickLaunchLocators.QUICK_LAUNCH_WIDGET_TEXT,
             QuickLaunchPageConstants.QUICK_LAUNCH_WIDGET_TEXT,
         )
 
+    @step("Get quick launch items from api")
     def get_quick_launch_items(self, request_setup, login_via_api):
         response = request_setup.get(
             APIEndpoints.SHORTCUTS_ENDPOINT,
@@ -26,6 +29,7 @@ class QuickLaunchComponent:
         assert response.status == 200
         return response.json()
 
+    @step("Validate quick launch items")
     def validate_quick_launch_items(self, response):
         if response["data"] == []:
             print("No items in quick launch")

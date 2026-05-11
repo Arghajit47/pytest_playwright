@@ -3,20 +3,23 @@ from constants.api_constants import APIEndpoints
 from constants.components.dashboard.my_actions_constants import MyActionsPageConstants
 from locators.components.dashboard.my_actions_locators import MyActionsLocators
 from pages.base_page import BasePage
+from pytest_pulse import step
 
 
 class MyActionsComponent:
 
-    def __init__(self, page, pulse_step):
+    def __init__(self, page):
         self.page = page
-        self.base_page = BasePage(page, pulse_step)
+        self.base_page = BasePage(page)
 
+    @step("Verify my actions widget text")
     def verify_my_actions_widget_text(self):
         self.base_page.verify_element_text(
             MyActionsLocators.MY_ACTIONS_WIDGET_TEXT,
             MyActionsPageConstants.MY_ACTIONS_WIDGET_TEXT,
         )
 
+    @step("Get my action items from api")
     def get_my_action_items_from_api(self, request_setup, login_via_api):
         response = request_setup.get(
             APIEndpoints.ACTION_ITEMS_ENDPOINT,
@@ -25,12 +28,14 @@ class MyActionsComponent:
         assert response.status == 200
         return response.json()
 
+    @step("Singularize")
     def singularize(self, data):
         if data["pendingActionCount"] == 1:
             return re.sub(r"s(\s|$)", r"\1", data["group"])
         else:
             return data["group"]
 
+    @step("Validate my action items")
     def validate_my_action_items(self, response):
         if response["data"] == []:
             print("No items in my action items")

@@ -2,6 +2,7 @@ import pytest
 from pages.components.admin.system_user_filter_components import (
     SystemUserFilterComponents,
 )
+from pytest_pulse import step, pulse_step
 
 
 pytestmark = pytest.mark.usefixtures(
@@ -12,10 +13,18 @@ pytestmark = pytest.mark.usefixtures(
 @pytest.mark.pulse_severity("High")
 @pytest.mark.pulse_tag("Regression")
 @pytest.mark.pulse_tag("Admin")
-def test_admin_filter(page, pulse_step, request_setup, login_via_api):
-    system_user_filter_component = SystemUserFilterComponents(page, pulse_step)
-    system_user_filter_component.verify_and_click_on_admin_option()
-    system_user_filter_component.verify_admin_page_url()
-    response = system_user_filter_component.get_user_list(request_setup, login_via_api)
+@step("Verify and test admin filter")
+def test_admin_filter(page, request_setup, login_via_api):
+    with pulse_step("Instantiate System User Filter Components"):
+        system_user_filter_component = SystemUserFilterComponents(page)
+    with pulse_step("Verify and click on admin option"):
+        system_user_filter_component.verify_and_click_on_admin_option()
+    with pulse_step("Verify admin page url"):
+        system_user_filter_component.verify_admin_page_url()
+    with pulse_step("Get user list"):
+        response = system_user_filter_component.get_user_list(
+            request_setup, login_via_api
+        )
     print(response)
-    system_user_filter_component.verify_user_list(response)
+    with pulse_step("Verify user list"):
+        system_user_filter_component.verify_user_list(response)

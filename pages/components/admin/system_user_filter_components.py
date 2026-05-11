@@ -7,15 +7,17 @@ from locators.components.admin.system_user_filter_locators import (
     SystemUserFilterLocators,
 )
 from pages.base_page import BasePage
+from pytest_pulse import step
 
 
 class SystemUserFilterComponents:
 
-    def __init__(self, page, pulse_step):
+    def __init__(self, page):
         self.page = page
-        self.base_page = BasePage(page, pulse_step)
+        self.base_page = BasePage(page)
         self.ui_helpers = UIHelpers(page)
 
+    @step("Verify and click on admin option")
     def verify_and_click_on_admin_option(self):
         self.base_page.verify_element_text(
             SystemUserFilterLocators.ADMIN_OPTION,
@@ -23,26 +25,29 @@ class SystemUserFilterComponents:
         )
         self.base_page.click(SystemUserFilterLocators.ADMIN_OPTION)
 
+    @step("Verify admin page url")
     def verify_admin_page_url(self):
         self.base_page.verify_page_url(SystemUserFilterConstants.ADMIN_PAGE_URL)
 
+    @step("Verify user list count")
     def verify_user_list_length(self, response):
-        count = len(response["data"])
-        if count == 1:
+        total_count = response["meta"]["total"]
+        if total_count == 1:
             self.base_page.verify_element_text(
                 SystemUserFilterLocators.USER_LIST_COUNT,
-                f"({count}) Record Found",
+                f"({total_count}) Record Found",
             )
         else:
             self.base_page.verify_element_text(
                 SystemUserFilterLocators.USER_LIST_COUNT,
-                f"({count}) Records Found",
+                f"({total_count}) Records Found",
             )
         self.base_page.verify_element_count(
             SystemUserFilterLocators.USER_LIST_ROWS,
             len(response["data"]),
         )
 
+    @step("Get user list")
     def get_user_list(self, request_setup, login_via_api):
         response = request_setup.get(
             APIEndpoints.USERS_ENDPOINT,
@@ -51,6 +56,7 @@ class SystemUserFilterComponents:
         assert response.status == 200
         return response.json()
 
+    @step("Verify user list")
     def verify_user_list(self, response):
         data = response.get("data", [])
         if not data:
