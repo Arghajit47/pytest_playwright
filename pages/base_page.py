@@ -92,6 +92,7 @@ class BasePage:
 
     def verify_page_url(self, url: str):
         with pulse_step("Verify page url"):
+            self.waitForFullyPageLoad()
             expect(self.page).to_have_url(url)
 
     def get_element_count(self, locator: str | Locator) -> int:
