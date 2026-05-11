@@ -1,4 +1,4 @@
---extra-index-url https://test.pypi.org/simple/
+# --extra-index-url https://test.pypi.org/simple/
 allure-pytest==2.16.0
 allure-python-commons==2.16.0
 attrs==26.1.0
@@ -23,7 +23,7 @@ pytest-base-url==2.1.0
 pytest-html==4.2.0
 pytest-metadata==3.1.1
 pytest-playwright==0.7.2
-pytest-pulse-report==1.0.6
+pytest-pulse-report==1.0.0
 pytest-xdist==3.8.0
 python-dotenv==1.0.1
 python-slugify==8.0.4
