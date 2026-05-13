@@ -7,3 +7,7 @@ class APIEndpoints:
     SHORTCUTS_ENDPOINT = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/shortcuts"
     DUMMYJSON_AUTHENTICATION_ENDPOINT = "https://dummyjson.com/auth/me"
     DUMMYJSON_LOGIN_ENDPOINT = "https://dummyjson.com/auth/login"
+    ABOUT_ME_API_ENDPOINT = (
+        "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/core/about"
+    )
+    DASHBOARD_LEAVES_ENDPOINT = lambda date: f"https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/leaves?date={date}"
