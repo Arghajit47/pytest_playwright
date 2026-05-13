@@ -12,6 +12,6 @@ class UIHelpers:
             return "Disabled"
         return status
 
-    def get_current_date():
+    def get_current_date(self):
         today = date.today()
         return str(today.isoformat())
