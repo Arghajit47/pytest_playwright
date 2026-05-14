@@ -2,8 +2,6 @@ import pytest
 from pytest_pulse import step
 
 
-@pytest.mark.slow
-@pytest.mark.pulse_tag("Regression")
 @pytest.mark.pulse_tag("Failed")
 @pytest.mark.pulse_annotation("Failed test case for report demonstartion")
 @pytest.mark.flaky(reruns=2, reruns_delay=1)
