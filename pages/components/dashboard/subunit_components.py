@@ -1,7 +1,7 @@
 from pytest_pulse import pulse_step
 from constants.api_constants import APIEndpoints
 from constants.components.dashboard.subunits_constants import SubunitsPageConstants
-from locators.components.dashboard.subnit_locators import SubnitLocators
+from locators.components.dashboard.subunit_locators import SubnitLocators
 from pages.base_page import BasePage
 from pytest_pulse import step
 
