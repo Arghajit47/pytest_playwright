@@ -12,3 +12,4 @@ class APIEndpoints:
     )
     DASHBOARD_LEAVES_ENDPOINT = lambda date: f"https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/leaves?date={date}"
     DASHBOARD_EMPLOYEE_SUBUNIT = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/subunit"
+    DASHBOARD_EMPLOYEE_BY_LOCATION = "https://opensource-demo.orangehrmlive.com/web/index.php/api/v2/dashboard/employees/locations"
