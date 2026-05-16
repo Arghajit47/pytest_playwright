@@ -51,9 +51,32 @@ jobs:
     - name: Generate Pulse Report
       if: always()
       run: |
+        # Create history directory in pulse-report if it doesn't exist
+        mkdir -p pulse-report/history
+        # Copy existing history files (if any)
+        cp -r history/*.json pulse-report/history/ || true
+        
+        # Generate reports
         generate-report
         generate-pulse-report
         generate-email-report
+        
+        # Copy the new trend file back to the root history folder
+        cp pulse-report/history/trend-*.json history/
+
+    - name: Create Pull Request for Pulse History
+      if: always()
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "docs: update pulse report history [skip ci]"
+        title: "Update Pulse Report History"
+        body: "Automated update of pulse report trend data."
+        branch: pulse-report-history-update
+        base: main
+        delete-branch: true
+        add-paths: |
+          history/*.json
       
     - name: Upload Pytest HTML Report
       if: always()
