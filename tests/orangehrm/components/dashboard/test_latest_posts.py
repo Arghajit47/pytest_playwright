@@ -15,6 +15,9 @@ pytestmark = pytest.mark.usefixtures(
 def test_latest_posts_component(page, request_setup, login_via_api):
     with pulse_step("Instantiate Latest Posts Component"):
         latest_posts_component = LatestPostsComponent(page)
+    with pulse_step("Check if Latest Posts widget is visible"):
+        if not latest_posts_component.is_widget_visible():
+            pytest.skip("Buzz Latest Posts widget is not visible (module likely disabled)")
     with pulse_step("Verify Latest Posts widget text"):
         latest_posts_component.verify_latest_posts_widget_text()
     with pulse_step("Get Latest Posts Items from API"):

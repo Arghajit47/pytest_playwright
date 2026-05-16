@@ -12,6 +12,9 @@ class LatestPostsComponent:
         self.base_page = BasePage(page)
         self.ui_helpers = UIHelpers(page)
 
+    def is_widget_visible(self):
+        return self.page.locator(LatestPostsLocators.HEADER).is_visible()
+
     @step("Verify latest posts widget header text")
     def verify_latest_posts_widget_text(self):
         self.base_page.verify_element_text(

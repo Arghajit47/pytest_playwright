@@ -1,5 +1,8 @@
+from constants.components.dashboard.latest_posts_locators import LatestPostsConstants
+
+
 class LatestPostsLocators:
-    HEADER = "i.bi-camera-fill ~ p"
+    HEADER = f".orangehrm-dashboard-widget-header:has-text('{LatestPostsConstants.LATEST_POSTS_WIDGET_TEXT}') p"
     POSTS_CONTAINER = "div.orangehrm-buzz-widget-card"
     POSTS_IMAGE = "img.orangehrm-buzz-widget-picture"
     POSTS_USER_IMAGE = "div.orangehrm-buzz-profile-image img[alt='profile picture']"
