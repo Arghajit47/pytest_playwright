@@ -1,7 +1,7 @@
 from pytest_pulse import pulse_step
 from constants.api_constants import APIEndpoints
 from constants.components.dashboard.subunits_constants import SubunitsPageConstants
-from locators.components.dashboard.subunit_locators import SubnitLocators
+from locators.components.dashboard.subunit_locators import SubunitLocators
 from pages.base_page import BasePage
 from pytest_pulse import step
 
@@ -14,7 +14,7 @@ class SubunitComponent:
     @step("Verify subunit widget text")
     def verify_subunit_widget_text(self):
         self.base_page.verify_element_text(
-            SubnitLocators.SUBUNIT_WIDGET_TEXT,
+            SubunitLocators.SUBUNIT_WIDGET_TEXT,
             SubunitsPageConstants.SUBUNIT_WIDGET_TEXT,
         )
 
@@ -37,7 +37,7 @@ class SubunitComponent:
                 print(response_json["data"])
             for item in response_json["data"]:
                 self.base_page.verify_element_is_visible(
-                    SubnitLocators.SUBUNIT_LEGENDS(item["subunit"]["name"]),
+                    SubunitLocators.SUBUNIT_LEGENDS(item["subunit"]["name"]),
                 )
 
         with pulse_step("Verify meta section of subunit api"):
@@ -50,8 +50,8 @@ class SubunitComponent:
                 print("Meta data found!")
                 print(response_json["meta"])
                 self.base_page.verify_element_is_visible(
-                    SubnitLocators.SUBUNIT_LEGENDS("Unassigned"),
+                    SubunitLocators.SUBUNIT_LEGENDS("Unassigned"),
                 )
 
         with pulse_step("Verify pie chart of subunit api"):
-            self.base_page.verify_element_is_visible(SubnitLocators.SUBUNIT_PIE_CHART)
+            self.base_page.verify_element_is_visible(SubunitLocators.SUBUNIT_PIE_CHART)

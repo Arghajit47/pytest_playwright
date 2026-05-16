@@ -143,12 +143,16 @@ class BasePage:
         with pulse_step("Verifying equal"):
             assert actual == expected, f"{actual} != {expected}"
 
-    def get_attribute(self, locator: str | Locator, attribute: str):
+    def expect_contains(self, actual: str, expected: str):
+        with pulse_step("Expecting text contains"):
+            assert expected in actual, f"Expected '{expected}' to be in '{actual}'"
+
+    def get_attribute(self, locator: str | Locator, attribute: str, index: int = 0):
         with pulse_step("Getting attribute"):
             if isinstance(locator, str):
-                return self.page.locator(locator).get_attribute(attribute)
+                return self.page.locator(locator).nth(index).get_attribute(attribute)
             else:
-                return locator.get_attribute(attribute)
+                return locator.nth(index).get_attribute(attribute)
 
     def verify_element_text_ignore_case(
         self, locator: str | Locator, text: str, index: int = 0
@@ -161,6 +165,31 @@ class BasePage:
             else:
                 expect(locator.nth(index)).to_have_text(text, ignore_case=True)
 
+    def verify_element_text_contains(
+        self, locator: str | Locator, expected_text: str, index: int = 0
+    ):
+        with pulse_step("Get actual text"):
+            if isinstance(locator, str):
+                actual_text = self.page.locator(locator).nth(index).inner_text()
+            else:
+                actual_text = locator.nth(index).inner_text()
+
+        with pulse_step("Verify text contains"):
+            self.expect_contains(actual_text, expected_text)
+
     def capture_screenshot(self, path: str = "screenshots"):
         with pulse_step("Capturing full pagescreenshot"):
             self.page.screenshot(path=path, full_page=True)
+
+    def verify_attribute_value_contains(
+        self,
+        locator: str | Locator,
+        attribute: str,
+        expected_value: str,
+        index: int = 0,
+    ):
+        with pulse_step("Get actual attribute value"):
+            actual_value = self.get_attribute(locator, attribute, index)
+
+        with pulse_step("Verify attribute value contains"):
+            self.expect_contains(actual_value, expected_value)
