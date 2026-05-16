@@ -51,7 +51,6 @@ jobs:
     - name: Generate Pulse Report
       if: always()
       run: |
-        merge-pulse-report
         generate-report
         generate-pulse-report
         generate-email-report
